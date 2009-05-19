@@ -140,6 +140,8 @@ namespace StartingNHibernate
 
 		private static void ConfigureNH()
 		{
+			//here we read the configuration from the application's
+			// config file. See the <hibernate-configuration > section in app.config.
 			_cfg = new Configuration();
 			_cfg.Configure();
 			_cfg.AddAssembly(typeof (Product).Assembly);

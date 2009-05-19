@@ -2,7 +2,15 @@
 <hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
                    namespace="StartingNHibernate"
                    assembly="StartingNHibernate">
-
+<!--
+	Relationships overview
+	=========================================
+	A Product is in many categories
+	A Category has many products
+	An Order has many order lines
+	An OrderLine belongs to an Order
+	An OrderLine belongs to a Product
+-->
 	<class name="Product" table="products" lazy="false">
 
 		<id name="Id">
@@ -13,7 +21,7 @@
 		<property name="Name" not-null="true" length="50"  />
 		<property name="Price" not-null="true" />
 		
-		<set name="Categories" lazy="true" table="categories_products" cascade="all">
+		<set name="Categories" lazy="true" table="categories_products" cascade="save-update">
 			<key column="product_id" />
 			<many-to-many column="category_id" class="Category" />
 		</set>
@@ -29,7 +37,7 @@
 
 		<property name="Name" not-null="true" length="30"  />
 
-		<set name="Products" lazy="true" table="categories_products" cascade="all">
+		<set name="Products" lazy="true" table="categories_products" cascade="save-update">
 			<key column="category_id" />
 			<many-to-many column="product_id" class="Product" />
 		</set>
@@ -59,8 +67,8 @@
 			<generator class="native" />
 		</id>
 
-		<many-to-one class="Order" column="order_id" name="Order" />
-		<many-to-one class="Product" column="product_id" name="Product" />
+		<many-to-one class="Order" column="order_id" name="Order" cascade="save-update" />
+		<many-to-one class="Product" column="product_id" name="Product" cascade="save-update" />
 		<property name="Quantity" not-null="true" length="30"  />
 
 	</class>
